@@ -42,7 +42,7 @@ accounts_schema = CustomerAccountSchema(many=True)
 
 class OrderSchema(ma.Schema):
     date = fields.Date(required=True)
-    product_id = fields.Integer(required=True)
+    products = fields.String(required=True)
 
     class Meta:
         fields = ("id", "date", "customer_id", "product_id")
