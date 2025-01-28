@@ -136,6 +136,11 @@ def delete_customer(id):
     db.session.commit()
     return jsonify({"message": "Customer removed successfully"})
 
+@app.route('/customers/<int:id>', methods=['GET'])
+def get_customer(id):
+    customer = Customer.query.get_or_404(id)
+    return jsonify({"message": "Customer updated successfully"})
+
 #Customer Account Routes---------------------------------------------------------------------------------------------------
 
 @app.route('/customer_account', methods=['GET'])
