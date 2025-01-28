@@ -25,6 +25,9 @@ class ProductsSchema(ma.Schema):
     name = fields.String(required=True, validate=validate.Length(min=1))
     price = fields.Float(required=True, validate=validate.Range(min=0))
 
+    class Meta:
+        fields = ("id", "name", "price")
+
 product_schema = ProductsSchema()
 products_schema = ProductsSchema(many=True)
 #---------------------------------------------------------------------------------
@@ -70,7 +73,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('Customers.id'), nullable=False)
-    products = db.relationship('Order', secondary=order_product, backref=db.backref('Orders'))
+    products = db.relationship('Product', secondary=order_product, back_populates="orders")
 
 #One to One
 class CustomerAccount(db.Model):
@@ -86,7 +89,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    orders = db.relationship('Order', secondary=order_product, backref=db.backref('Products'))
+    orders = db.relationship('Order', secondary=order_product, back_populates="products")
 
 @app.route('/')
 def home():
